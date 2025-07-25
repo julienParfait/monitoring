@@ -22,17 +22,39 @@ library(monitoring)
 
 ## Available Functions
 
-### 1. `gdrive()`: Import Files from Google Drive
+### 1. Import Files from Google Drive with gdrive() function
 
-Imports a CSV or Excel file from Google Drive using either the file name
-or a shared URL.
+This function allows importing datasets stored on the Google Drive
+platform. It supports two file formats: Excel files (.xlsx) and CSV
+files (.csv). This function is particularly useful when aiming to create
+reproducible code and easily update results that have already been
+generated.
+
+A dataset (.csv or .xlsx) can be stored in a specific folder on Google
+Drive and called into R using the gdrive() function. This is ideal for
+building dashboards, performing data analysis, or running statistical
+models.
+
+To update the data, you simply replace the file in Google Drive with a
+new version that has the same name and structure (same variables and
+sheet name, if applicable). As a result, all results in your R script
+are updated automatically, without needing to modify the code itself.
+
+This approach is particularly useful when working with large datasets,
+for preserving confidentiality (as files can be kept private on Drive),
+and for ensuring reproducibility of your analysis.
 
 #### Arguments:
 
-- `file_name`: *(optional)* Exact name of the file on Google Drive
-- `file_url`: *(optional)* Shared Google Drive URL
+- `file_name`: Exact name of the file on Google Drive
+- `file_url`: Shared Google Drive URL
 - `file_type`: `"csv"` or `"xlsx"`
-- `sheet`: *(optional)* Sheet name for Excel files
+- `sheet`: Sheet name for Excel files
+
+To get the correct URL, right-click on the file name in the Google Drive
+folder, then select “Share”. In the sharing settings, choose “Anyone
+with the link” and copy the provided link. The URL should look like
+this: <https://drive.google.com/file/d/1AbCDeFgHIJKLM/view?usp=sharing>
 
 #### Returns:
 
@@ -40,20 +62,72 @@ A `data.frame` containing the file content.
 
 #### Example:
 
-``` r
-data1 <- gdrive(file_name = "data.csv", file_type = "csv")
+After running the code below, you will see the following messages:
 
-data2 <-  gdrive(
+- The **googledrive** package is requesting access to your Google
+  account.
+
+- Enter ‘1’ to start a new authentication process or select a
+  pre-authorized account.
+
+- 1: Send me to the browser for a new auth process.
+
+- 2: <user@gmail.com>
+
+If you have **never authenticated before**, type `1` and press *Enter*.
+This will open a browser window where you can sign in to your Google
+account and grant access. We have now access on your data.
+
+Once authorized, your credentials will be **saved in RStudio**, and in
+future sessions you will only need to select the corresponding number
+(e.g., `2`) for your Google account and press *Enter*.
+
+``` r
+# Usage 
+data1 <-  gdrive(
+  file_name = "name of the file",
   file_url = "https://drive.google.com/file/d/XYZ/view",
   file_type = "xlsx",
-  sheet = "Sheet1"
+  sheet = "name of the sheet"
 )
+
+# Example 1 
+data2 <-  gdrive(
+  file_name = "Copie de Liste des structures",
+  file_url = "https://docs.google.com/spreadsheets/d/1XrL-THqB5TjvZx6OCw6bLfOzvBPt5MYB/edit?usp=sharing&ouid=108670923306466043393&rtpof=true&sd=true",
+  file_type = "xlsx",
+  sheet = "Liste des Restaurants")
+
+# Example 2 
+data3 <-  gdrive(
+  file_name = "Copie de Base",
+  file_url = "https://drive.google.com/file/d/1ND0JR0E75MGjJiCbkk0BMipC9tixSdNq/view?usp=sharing", file_type = "csv")
 ```
 
-### 2. `githb()`: Import Files from GitHub
+### 2. Import Files from GitHub with githb() function
 
-Downloads a CSV or Excel file directly from a public GitHub repository
-using the raw URL.
+**This function allows you to import datasets stored on the GitHub
+platform.**It supports two file formats: Excel files (`.xlsx`) and CSV
+files (`.csv`). This function is particularly useful for creating
+**reproducible code**, enabling **code sharing**, supporting **version
+control**, and facilitating **collaborative programming**. It also makes
+it easy to update results that depend on external datasets.
+
+A dataset (`.csv` or `.xlsx`) can be stored in a GitHub repository and
+accessed directly using the `githb()` function. This approach is
+especially valuable for **researchers**, **engineers**, and
+**programmers** who commonly work with GitHub as a development and
+data-sharing platform. In addition, this function supports:
+
+- **Confidentiality**, since data can be stored in private repositories
+- **Traceability** through GitHub’s version history
+- **Automation**, by integrating seamlessly with R scripts and
+  dashboards
+- **Remote access**, making the latest version of your data available
+  from anywhere
+
+Overall, `githb()` contributes to a modern, robust, and maintainable
+workflow for anyone managing data in a GitHub-based environment.
 
 #### Arguments:
 
@@ -68,20 +142,63 @@ A `data.frame` with the imported data.
 
 #### Example:
 
-``` r
-githb("https://raw.githubusercontent.com/user/repo/main/data.csv", file_type = "csv")
+Make sure you have a GitHub account. Open the repository that contains
+your dataset. Then, click on the file (.csv or .xlsx). On the page that
+opens, click the three dots (…) on the right, and select “Copy
+permalink”.
 
-githb(
-  "https://raw.githubusercontent.com/user/repo/main/data.xlsx",
-  file_type = "xlsx",
-  sheet = "Sheet1"
+Paste this link into the githb() function under the github_raw_url
+argument. Next, replace the domain part of the URL from **github.com**
+to **raw.githubusercontent.com**.
+
+Example :
+
+- The permanent link :
+  <https://github.com/julienParfait/streaming/blob/8dae2a2d590c25188586155ed5ec687e8f4546ba/base_imputee.csv>
+
+- The github_raw_url =
+  “<https://raw.githubusercontent.com/julienParfait/streaming/8dae2a2d590c25188586155ed5ec687e8f4546ba/base_imputee.csv>”
+
+That’s it — you now have the correct raw URL. You just need to specify
+the file_type, and if it’s an Excel file, the sheet name as well. Then
+run the function to import your data.
+
+``` r
+# Usage 
+data4 <- githb(github_raw_url= "https://raw.githubusercontent.com/user/repo/main/data.csv", 
+      file_type = "csv", # xlsx or csv
+      sheet = NULL) 
+
+# Example 
+data5 <- githb(
+  "https://raw.githubusercontent.com/julienParfait/streaming/8dae2a2d590c25188586155ed5ec687e8f4546ba/base_imputee.csv",
+  file_type = "csv"
 )
 ```
 
-### 3. `xlsform()`: Download XLSForm from KoboToolbox
+### 3. Download XLSForm from KoboToolbox
 
-Connects to the KoboToolbox API and downloads the XLSForm corresponding
-to a form ID.
+This function allows you to download the XLSForm associated with a
+questionnaire from the KoboToolbox platform. To do this, the user must
+provide their username, password, and the form ID as parameters.
+
+Once logged into the KoboToolbox platform, there are four main sections:
+
+- Overview
+
+- Form
+
+- Data
+
+- Settings
+
+Please click on the Form section. Then, inspect the URL that appears in
+your browser’s address bar. The URL may look like the following:
+<https://kf.kobotoolbox.org/#/forms/aGkkhsn7XE5Q6q69SMbABH/landing>
+
+In this case, the form ID is: aGkkhsn7XE5Q6q69SMbABH
+
+See the example below for reference.
 
 #### Arguments:
 
@@ -103,9 +220,56 @@ xlsform(
 )
 ```
 
-### 4. `kobo()`: Import KoboToolbox Submission Data
+### 4. Import KoboToolbox Submission Data
 
-Downloads and processes KoboToolbox form submission data.
+This function allows you to download data associated with a form from
+the KoboToolbox platform. To do so, the user must provide the following
+parameters:
+
+- username: your KoboToolbox account username
+
+- password: your KoboToolbox account password
+
+- form_id: the unique ID of the form
+
+- server_type: either “kobotoolbox” (default) or “humanitarian”
+
+- output_dir (optional): the local directory where the file will be
+  saved
+
+Once logged into KoboToolbox, the interface contains four main sections:
+
+- Overview
+
+- Form
+
+- Data
+
+- Settings
+
+Click on the Form section and inspect the URL shown in your browser’s
+address bar. It may look like this:
+<https://kf.kobotoolbox.org/#/forms/aGkkhsn7XE5Q6q69SMbABH/landing>
+
+In this case, the form ID is: aGkkhsn7XE5Q6q69SMbABH
+
+To determine the correct server type, inspect the domain in the URL:
+
+If it contains kf.kobotoolbox.org or kc.kobotoolbox.org, set server_type
+= “kobotoolbox” (Global server)
+
+If it contains eu.kobotoolbox.org, set server_type = “humanitarian” (EU
+or humanitarian server)
+
+This is a very important function for monitoring and evaluation in field
+surveys. Once your monitoring indicators are already computed using R
+commands, you can simply re-import the updated data using this function,
+and all results will be automatically refreshed.
+
+**Note:** The function currently does not support datasets that contain
+begin repeat groups.
+
+See the example below for reference.
 
 #### Arguments:
 
@@ -137,10 +301,121 @@ df <- kobo(
 )
 ```
 
-### 5. `statalab()`: Generate Stata `.do` File
+### 5. Generate Stata `.do` File with statalab() function
 
-Creates a `.do` script to automate Stata import and labeling based on a
-KoboToolbox XLSForm and exported dataset.
+This function generates a Stata do-file that contains the path to the
+dataset, a complete set of labeling commands, and value labeling
+instructions based on the corresponding XLSForm. More specifically, the
+function builds a script that:
+
+assigns variable labels using the full question text from the XLSForm,
+
+assigns value labels for categorical variables using their defined
+choices,
+
+and specifies the location of the source dataset to be read by Stata.
+
+To achieve this, the function requires three arguments:
+
+the path to the dataset in Excel format (usually exported from
+KoboToolbox, either manually or using the kobo() function),
+
+the path to the associated XLSForm (prepared with the xlsform()
+function),
+
+and the output directory where the generated .do file will be saved.
+
+This function is particularly useful for researchers, econometricians,
+and statistical consultants who use Stata in their data analysis
+workflow. It allows them to avoid manually writing labeling commands,
+which can be time-consuming and error-prone—especially when working with
+large surveys.
+
+Another major benefit is that the function works even without deploying
+the form online. As long as you have both the dataset and its
+corresponding XLSForm available locally, you can generate the labeling
+script and apply it to your data. This makes it a very practical tool
+for offline workflows, archived datasets, or retrospective labeling of
+previously collected data.
+
+Furthermore, by automating the labeling process, this function promotes
+reproducibility, ensures data consistency, and improves data readability
+for downstream users. It also facilitates collaboration, since labeled
+datasets are much easier to interpret by third parties who may not be
+familiar with the original questionnaire.
+
+Voici un **exemple clair et structuré** que tu peux inclure dans ton
+fichier `README.Rmd` pour illustrer l’usage de ta fonction qui génère un
+**do-file pour Stata** à partir d’un fichier de données `.xlsx` et de
+son `XLSForm`. L’exemple inclut un **contexte d’enquête**, deux **petits
+tableaux simulés**, et un bloc de code **`R`** montrant l’appel de ta
+fonction.
+
+### Use case: Labeling a survey dataset for Stata analysis
+
+Suppose you conducted a household survey and exported the data from
+KoboToolbox as an Excel file. You also have the corresponding XLSForm
+used to design the questionnaire.
+
+Now you want to label all variables and values in Stata using the
+original questions and choices—**without doing it manually**.
+
+This function automates the process by generating a `.do` file ready to
+use in Stata.
+
+### Example Files
+
+#### Dataset (Excel): `household_data.xlsx`
+
+| uuid     | age | gender | education |
+|----------|-----|--------|-----------|
+| uuid-001 | 34  | 1      | 2         |
+| uuid-002 | 22  | 2      | 1         |
+
+#### XLSForm: `survey_form.xlsx`
+
+**survey sheet**
+
+| type              | name      | label                         |
+|-------------------|-----------|-------------------------------|
+| integer           | age       | What is your age?             |
+| select_one gender | gender    | What is your gender?          |
+| select_one edu    | education | What is your education level? |
+
+**choices sheet**
+
+| list_name | name | label     |
+|-----------|------|-----------|
+| gender    | 1    | Male      |
+| gender    | 2    | Female    |
+| edu       | 1    | Primary   |
+| edu       | 2    | Secondary |
+
+### R code to generate Stata do-file
+
+``` r
+generate_stata_do(
+  data_path = "data/household_data.xlsx",
+  xlsform_path = "forms/survey_form.xlsx",
+  output_dir = "output"
+)
+```
+
+After running this function, a file called `labeling.do` will be created
+in the `output/` folder. When you open it in Stata and run it, the
+dataset will be loaded and all labels will be applied as follows:
+
+- The variable `gender` will be labeled **“What is your gender?”**
+- The values `1` and `2` will be labeled **“Male”** and **“Female”**
+- Similarly, `education` will be labeled **“What is your education
+  level?”** and its values properly tagged.
+
+### Advantages
+
+- Saves hours of manual labeling work
+- Ensures consistency between form and dataset
+- Works with any XLSForm-compliant survey (from KoboToolbox or local)
+- Ideal for large-scale surveys and teams using R + Stata workflows
 
 #### Arguments:
 
@@ -170,4 +445,4 @@ details.
 ## Support
 
 For bugs, issues, or suggestions, open an issue on the GitHub
-repository: <https://github.com/yourusername/MyPackage/issues>
+repository: <https://github.com/julienParfait/monitoring/>

@@ -84,23 +84,27 @@
 <h2 id="available-functions">Available Functions<a class="anchor" aria-label="anchor" href="#available-functions"></a>
 </h2>
 <div class="section level3">
-<h3 id="id_1-gdrive-import-files-from-google-drive">1. <code>gdrive()</code>: Import Files from Google Drive<a class="anchor" aria-label="anchor" href="#id_1-gdrive-import-files-from-google-drive"></a>
+<h3 id="id_1-import-files-from-google-drive-with-gdrive-function">1. Import Files from Google Drive with gdrive() function<a class="anchor" aria-label="anchor" href="#id_1-import-files-from-google-drive-with-gdrive-function"></a>
 </h3>
-<p>Imports a CSV or Excel file from Google Drive using either the file name or a shared URL.</p>
+<p>This function allows importing datasets stored on the Google Drive platform. It supports two file formats: Excel files (.xlsx) and CSV files (.csv). This function is particularly useful when aiming to create reproducible code and easily update results that have already been generated.</p>
+<p>A dataset (.csv or .xlsx) can be stored in a specific folder on Google Drive and called into R using the gdrive() function. This is ideal for building dashboards, performing data analysis, or running statistical models.</p>
+<p>To update the data, you simply replace the file in Google Drive with a new version that has the same name and structure (same variables and sheet name, if applicable). As a result, all results in your R script are updated automatically, without needing to modify the code itself.</p>
+<p>This approach is particularly useful when working with large datasets, for preserving confidentiality (as files can be kept private on Drive), and for ensuring reproducibility of your analysis.</p>
 <div class="section level4">
 <h4 id="arguments">Arguments:<a class="anchor" aria-label="anchor" href="#arguments"></a>
 </h4>
 <ul>
 <li>
-<code>file_name</code>: <em>(optional)</em> Exact name of the file on Google Drive</li>
+<code>file_name</code>: Exact name of the file on Google Drive</li>
 <li>
-<code>file_url</code>: <em>(optional)</em> Shared Google Drive URL</li>
+<code>file_url</code>: Shared Google Drive URL</li>
 <li>
 <code>file_type</code>: <code>"csv"</code> or <code>"xlsx"</code>
 </li>
 <li>
-<code>sheet</code>: <em>(optional)</em> Sheet name for Excel files</li>
+<code>sheet</code>: Sheet name for Excel files</li>
 </ul>
+<p>To get the correct URL, right-click on the file name in the Google Drive folder, then select “Share”. In the sharing settings, choose “Anyone with the link” and copy the provided link. The URL should look like this: <a href="https://drive.google.com/file/d/1AbCDeFgHIJKLM/view?usp=sharing" class="external-link uri">https://drive.google.com/file/d/1AbCDeFgHIJKLM/view?usp=sharing</a></p>
 </div>
 <div class="section level4">
 <h4 id="returns">Returns:<a class="anchor" aria-label="anchor" href="#returns"></a>
@@ -110,20 +114,53 @@
 <div class="section level4">
 <h4 id="example">Example:<a class="anchor" aria-label="anchor" href="#example"></a>
 </h4>
+<p>After running the code below, you will see the following messages:</p>
+<ul>
+<li><p>The <strong>googledrive</strong> package is requesting access to your Google account.</p></li>
+<li><p>Enter ‘1’ to start a new authentication process or select a pre-authorized account.</p></li>
+<li><p>1: Send me to the browser for a new auth process.</p></li>
+<li><p>2: <a href="mailto:user@gmail.com" class="email">user@gmail.com</a></p></li>
+</ul>
+<p>If you have <strong>never authenticated before</strong>, type <code>1</code> and press <em>Enter</em>. This will open a browser window where you can sign in to your Google account and grant access. We have now access on your data.</p>
+<p>Once authorized, your credentials will be <strong>saved in RStudio</strong>, and in future sessions you will only need to select the corresponding number (e.g., <code>2</code>) for your Google account and press <em>Enter</em>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">data1</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/gdrive.html">gdrive</a></span><span class="op">(</span>file_name <span class="op">=</span> <span class="st">"data.csv"</span>, file_type <span class="op">=</span> <span class="st">"csv"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">data2</span> <span class="op">&lt;-</span>  <span class="fu"><a href="reference/gdrive.html">gdrive</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="co"># Usage </span></span>
+<span><span class="va">data1</span> <span class="op">&lt;-</span>  <span class="fu"><a href="reference/gdrive.html">gdrive</a></span><span class="op">(</span></span>
+<span>  file_name <span class="op">=</span> <span class="st">"name of the file"</span>,</span>
 <span>  file_url <span class="op">=</span> <span class="st">"https://drive.google.com/file/d/XYZ/view"</span>,</span>
 <span>  file_type <span class="op">=</span> <span class="st">"xlsx"</span>,</span>
-<span>  sheet <span class="op">=</span> <span class="st">"Sheet1"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+<span>  sheet <span class="op">=</span> <span class="st">"name of the sheet"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Example 1 </span></span>
+<span><span class="va">data2</span> <span class="op">&lt;-</span>  <span class="fu"><a href="reference/gdrive.html">gdrive</a></span><span class="op">(</span></span>
+<span>  file_name <span class="op">=</span> <span class="st">"Copie de Liste des structures"</span>,</span>
+<span>  file_url <span class="op">=</span> <span class="st">"https://docs.google.com/spreadsheets/d/1XrL-THqB5TjvZx6OCw6bLfOzvBPt5MYB/edit?usp=sharing&amp;ouid=108670923306466043393&amp;rtpof=true&amp;sd=true"</span>,</span>
+<span>  file_type <span class="op">=</span> <span class="st">"xlsx"</span>,</span>
+<span>  sheet <span class="op">=</span> <span class="st">"Liste des Restaurants"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Example 2 </span></span>
+<span><span class="va">data3</span> <span class="op">&lt;-</span>  <span class="fu"><a href="reference/gdrive.html">gdrive</a></span><span class="op">(</span></span>
+<span>  file_name <span class="op">=</span> <span class="st">"Copie de Base"</span>,</span>
+<span>  file_url <span class="op">=</span> <span class="st">"https://drive.google.com/file/d/1ND0JR0E75MGjJiCbkk0BMipC9tixSdNq/view?usp=sharing"</span>, file_type <span class="op">=</span> <span class="st">"csv"</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level3">
-<h3 id="id_2-githb-import-files-from-github">2. <code>githb()</code>: Import Files from GitHub<a class="anchor" aria-label="anchor" href="#id_2-githb-import-files-from-github"></a>
+<h3 id="id_2-import-files-from-github-with-githb-function">2. Import Files from GitHub with githb() function<a class="anchor" aria-label="anchor" href="#id_2-import-files-from-github-with-githb-function"></a>
 </h3>
-<p>Downloads a CSV or Excel file directly from a public GitHub repository using the raw URL.</p>
+<p><strong>This function allows you to import datasets stored on the GitHub platform.</strong>It supports two file formats: Excel files (<code>.xlsx</code>) and CSV files (<code>.csv</code>). This function is particularly useful for creating <strong>reproducible code</strong>, enabling <strong>code sharing</strong>, supporting <strong>version control</strong>, and facilitating <strong>collaborative programming</strong>. It also makes it easy to update results that depend on external datasets.</p>
+<p>A dataset (<code>.csv</code> or <code>.xlsx</code>) can be stored in a GitHub repository and accessed directly using the <code><a href="reference/githb.html">githb()</a></code> function. This approach is especially valuable for <strong>researchers</strong>, <strong>engineers</strong>, and <strong>programmers</strong> who commonly work with GitHub as a development and data-sharing platform. In addition, this function supports:</p>
+<ul>
+<li>
+<strong>Confidentiality</strong>, since data can be stored in private repositories</li>
+<li>
+<strong>Traceability</strong> through GitHub’s version history</li>
+<li>
+<strong>Automation</strong>, by integrating seamlessly with R scripts and dashboards</li>
+<li>
+<strong>Remote access</strong>, making the latest version of your data available from anywhere</li>
+</ul>
+<p>Overall, <code><a href="reference/githb.html">githb()</a></code> contributes to a modern, robust, and maintainable workflow for anyone managing data in a GitHub-based environment.</p>
 <div class="section level4">
 <h4 id="arguments-1">Arguments:<a class="anchor" aria-label="anchor" href="#arguments-1"></a>
 </h4>
@@ -145,20 +182,41 @@
 <div class="section level4">
 <h4 id="example-1">Example:<a class="anchor" aria-label="anchor" href="#example-1"></a>
 </h4>
+<p>Make sure you have a GitHub account. Open the repository that contains your dataset. Then, click on the file (.csv or .xlsx). On the page that opens, click the three dots (…) on the right, and select “Copy permalink”.</p>
+<p>Paste this link into the githb() function under the github_raw_url argument. Next, replace the domain part of the URL from <strong>github.com</strong> to <strong>raw.githubusercontent.com</strong>.</p>
+<p>Example :</p>
+<ul>
+<li><p>The permanent link : <a href="https://github.com/julienParfait/streaming/blob/8dae2a2d590c25188586155ed5ec687e8f4546ba/base_imputee.csv" class="external-link uri">https://github.com/julienParfait/streaming/blob/8dae2a2d590c25188586155ed5ec687e8f4546ba/base_imputee.csv</a></p></li>
+<li><p>The github_raw_url = “<a href="https://raw.githubusercontent.com/julienParfait/streaming/8dae2a2d590c25188586155ed5ec687e8f4546ba/base_imputee.csv" class="external-link uri">https://raw.githubusercontent.com/julienParfait/streaming/8dae2a2d590c25188586155ed5ec687e8f4546ba/base_imputee.csv</a>”</p></li>
+</ul>
+<p>That’s it — you now have the correct raw URL. You just need to specify the file_type, and if it’s an Excel file, the sheet name as well. Then run the function to import your data.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/githb.html">githb</a></span><span class="op">(</span><span class="st">"https://raw.githubusercontent.com/user/repo/main/data.csv"</span>, file_type <span class="op">=</span> <span class="st">"csv"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># Usage </span></span>
+<span><span class="va">data4</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/githb.html">githb</a></span><span class="op">(</span>github_raw_url<span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/user/repo/main/data.csv"</span>, </span>
+<span>      file_type <span class="op">=</span> <span class="st">"csv"</span>, <span class="co"># xlsx or csv</span></span>
+<span>      sheet <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> </span>
 <span></span>
-<span><span class="fu"><a href="reference/githb.html">githb</a></span><span class="op">(</span></span>
-<span>  <span class="st">"https://raw.githubusercontent.com/user/repo/main/data.xlsx"</span>,</span>
-<span>  file_type <span class="op">=</span> <span class="st">"xlsx"</span>,</span>
-<span>  sheet <span class="op">=</span> <span class="st">"Sheet1"</span></span>
+<span><span class="co"># Example </span></span>
+<span><span class="va">data5</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/githb.html">githb</a></span><span class="op">(</span></span>
+<span>  <span class="st">"https://raw.githubusercontent.com/julienParfait/streaming/8dae2a2d590c25188586155ed5ec687e8f4546ba/base_imputee.csv"</span>,</span>
+<span>  file_type <span class="op">=</span> <span class="st">"csv"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level3">
-<h3 id="id_3-xlsform-download-xlsform-from-kobotoolbox">3. <code>xlsform()</code>: Download XLSForm from KoboToolbox<a class="anchor" aria-label="anchor" href="#id_3-xlsform-download-xlsform-from-kobotoolbox"></a>
+<h3 id="id_3-download-xlsform-from-kobotoolbox">3. Download XLSForm from KoboToolbox<a class="anchor" aria-label="anchor" href="#id_3-download-xlsform-from-kobotoolbox"></a>
 </h3>
-<p>Connects to the KoboToolbox API and downloads the XLSForm corresponding to a form ID.</p>
+<p>This function allows you to download the XLSForm associated with a questionnaire from the KoboToolbox platform. To do this, the user must provide their username, password, and the form ID as parameters.</p>
+<p>Once logged into the KoboToolbox platform, there are four main sections:</p>
+<ul>
+<li><p>Overview</p></li>
+<li><p>Form</p></li>
+<li><p>Data</p></li>
+<li><p>Settings</p></li>
+</ul>
+<p>Please click on the Form section. Then, inspect the URL that appears in your browser’s address bar. The URL may look like the following: <a href="https://kf.kobotoolbox.org/#/forms/aGkkhsn7XE5Q6q69SMbABH/landing" class="external-link uri">https://kf.kobotoolbox.org/#/forms/aGkkhsn7XE5Q6q69SMbABH/landing</a></p>
+<p>In this case, the form ID is: aGkkhsn7XE5Q6q69SMbABH</p>
+<p>See the example below for reference.</p>
 <div class="section level4">
 <h4 id="arguments-2">Arguments:<a class="anchor" aria-label="anchor" href="#arguments-2"></a>
 </h4>
@@ -188,9 +246,31 @@
 </div>
 </div>
 <div class="section level3">
-<h3 id="id_4-kobo-import-kobotoolbox-submission-data">4. <code>kobo()</code>: Import KoboToolbox Submission Data<a class="anchor" aria-label="anchor" href="#id_4-kobo-import-kobotoolbox-submission-data"></a>
+<h3 id="id_4-import-kobotoolbox-submission-data">4. Import KoboToolbox Submission Data<a class="anchor" aria-label="anchor" href="#id_4-import-kobotoolbox-submission-data"></a>
 </h3>
-<p>Downloads and processes KoboToolbox form submission data.</p>
+<p>This function allows you to download data associated with a form from the KoboToolbox platform. To do so, the user must provide the following parameters:</p>
+<ul>
+<li><p>username: your KoboToolbox account username</p></li>
+<li><p>password: your KoboToolbox account password</p></li>
+<li><p>form_id: the unique ID of the form</p></li>
+<li><p>server_type: either “kobotoolbox” (default) or “humanitarian”</p></li>
+<li><p>output_dir (optional): the local directory where the file will be saved</p></li>
+</ul>
+<p>Once logged into KoboToolbox, the interface contains four main sections:</p>
+<ul>
+<li><p>Overview</p></li>
+<li><p>Form</p></li>
+<li><p>Data</p></li>
+<li><p>Settings</p></li>
+</ul>
+<p>Click on the Form section and inspect the URL shown in your browser’s address bar. It may look like this: <a href="https://kf.kobotoolbox.org/#/forms/aGkkhsn7XE5Q6q69SMbABH/landing" class="external-link uri">https://kf.kobotoolbox.org/#/forms/aGkkhsn7XE5Q6q69SMbABH/landing</a></p>
+<p>In this case, the form ID is: aGkkhsn7XE5Q6q69SMbABH</p>
+<p>To determine the correct server type, inspect the domain in the URL:</p>
+<p>If it contains kf.kobotoolbox.org or kc.kobotoolbox.org, set server_type = “kobotoolbox” (Global server)</p>
+<p>If it contains eu.kobotoolbox.org, set server_type = “humanitarian” (EU or humanitarian server)</p>
+<p>This is a very important function for monitoring and evaluation in field surveys. Once your monitoring indicators are already computed using R commands, you can simply re-import the updated data using this function, and all results will be automatically refreshed.</p>
+<p><strong>Note:</strong> The function currently does not support datasets that contain begin repeat groups.</p>
+<p>See the example below for reference.</p>
 <div class="section level4">
 <h4 id="arguments-3">Arguments:<a class="anchor" aria-label="anchor" href="#arguments-3"></a>
 </h4>
@@ -238,9 +318,146 @@
 </div>
 </div>
 <div class="section level3">
-<h3 id="id_5-statalab-generate-stata-do-file">5. <code>statalab()</code>: Generate Stata <code>.do</code> File<a class="anchor" aria-label="anchor" href="#id_5-statalab-generate-stata-do-file"></a>
+<h3 id="id_5-generate-stata-do-file-with-statalab-function">5. Generate Stata <code>.do</code> File with statalab() function<a class="anchor" aria-label="anchor" href="#id_5-generate-stata-do-file-with-statalab-function"></a>
 </h3>
-<p>Creates a <code>.do</code> script to automate Stata import and labeling based on a KoboToolbox XLSForm and exported dataset.</p>
+<p>This function generates a Stata do-file that contains the path to the dataset, a complete set of labeling commands, and value labeling instructions based on the corresponding XLSForm. More specifically, the function builds a script that:</p>
+<p>assigns variable labels using the full question text from the XLSForm,</p>
+<p>assigns value labels for categorical variables using their defined choices,</p>
+<p>and specifies the location of the source dataset to be read by Stata.</p>
+<p>To achieve this, the function requires three arguments:</p>
+<p>the path to the dataset in Excel format (usually exported from KoboToolbox, either manually or using the kobo() function),</p>
+<p>the path to the associated XLSForm (prepared with the xlsform() function),</p>
+<p>and the output directory where the generated .do file will be saved.</p>
+<p>This function is particularly useful for researchers, econometricians, and statistical consultants who use Stata in their data analysis workflow. It allows them to avoid manually writing labeling commands, which can be time-consuming and error-prone—especially when working with large surveys.</p>
+<p>Another major benefit is that the function works even without deploying the form online. As long as you have both the dataset and its corresponding XLSForm available locally, you can generate the labeling script and apply it to your data. This makes it a very practical tool for offline workflows, archived datasets, or retrospective labeling of previously collected data.</p>
+<p>Furthermore, by automating the labeling process, this function promotes reproducibility, ensures data consistency, and improves data readability for downstream users. It also facilitates collaboration, since labeled datasets are much easier to interpret by third parties who may not be familiar with the original questionnaire.</p>
+<p>Voici un <strong>exemple clair et structuré</strong> que tu peux inclure dans ton fichier <code>README.Rmd</code> pour illustrer l’usage de ta fonction qui génère un <strong>do-file pour Stata</strong> à partir d’un fichier de données <code>.xlsx</code> et de son <code>XLSForm</code>. L’exemple inclut un <strong>contexte d’enquête</strong>, deux <strong>petits tableaux simulés</strong>, et un bloc de code <strong><code>R</code></strong> montrant l’appel de ta fonction.</p>
+</div>
+<div class="section level3">
+<h3 id="use-case-labeling-a-survey-dataset-for-stata-analysis">Use case: Labeling a survey dataset for Stata analysis<a class="anchor" aria-label="anchor" href="#use-case-labeling-a-survey-dataset-for-stata-analysis"></a>
+</h3>
+<p>Suppose you conducted a household survey and exported the data from KoboToolbox as an Excel file. You also have the corresponding XLSForm used to design the questionnaire.</p>
+<p>Now you want to label all variables and values in Stata using the original questions and choices—<strong>without doing it manually</strong>.</p>
+<p>This function automates the process by generating a <code>.do</code> file ready to use in Stata.</p>
+</div>
+<div class="section level3">
+<h3 id="example-files">Example Files<a class="anchor" aria-label="anchor" href="#example-files"></a>
+</h3>
+<div class="section level4">
+<h4 id="dataset-excel-household_dataxlsx">Dataset (Excel): <code>household_data.xlsx</code>
+<a class="anchor" aria-label="anchor" href="#dataset-excel-household_dataxlsx"></a>
+</h4>
+<table class="table">
+<thead><tr>
+<th>uuid</th>
+<th>age</th>
+<th>gender</th>
+<th>education</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>uuid-001</td>
+<td>34</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>uuid-002</td>
+<td>22</td>
+<td>2</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level4">
+<h4 id="xlsform-survey_formxlsx">XLSForm: <code>survey_form.xlsx</code>
+<a class="anchor" aria-label="anchor" href="#xlsform-survey_formxlsx"></a>
+</h4>
+<p><strong>survey sheet</strong></p>
+<table class="table">
+<thead><tr>
+<th>type</th>
+<th>name</th>
+<th>label</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>integer</td>
+<td>age</td>
+<td>What is your age?</td>
+</tr>
+<tr>
+<td>select_one gender</td>
+<td>gender</td>
+<td>What is your gender?</td>
+</tr>
+<tr>
+<td>select_one edu</td>
+<td>education</td>
+<td>What is your education level?</td>
+</tr>
+</tbody>
+</table>
+<p><strong>choices sheet</strong></p>
+<table class="table">
+<thead><tr>
+<th>list_name</th>
+<th>name</th>
+<th>label</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>gender</td>
+<td>1</td>
+<td>Male</td>
+</tr>
+<tr>
+<td>gender</td>
+<td>2</td>
+<td>Female</td>
+</tr>
+<tr>
+<td>edu</td>
+<td>1</td>
+<td>Primary</td>
+</tr>
+<tr>
+<td>edu</td>
+<td>2</td>
+<td>Secondary</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section level3">
+<h3 id="r-code-to-generate-stata-do-file">R code to generate Stata do-file<a class="anchor" aria-label="anchor" href="#r-code-to-generate-stata-do-file"></a>
+</h3>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">generate_stata_do</span><span class="op">(</span></span>
+<span>  data_path <span class="op">=</span> <span class="st">"data/household_data.xlsx"</span>,</span>
+<span>  xlsform_path <span class="op">=</span> <span class="st">"forms/survey_form.xlsx"</span>,</span>
+<span>  output_dir <span class="op">=</span> <span class="st">"output"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>After running this function, a file called <code>labeling.do</code> will be created in the <code>output/</code> folder. When you open it in Stata and run it, the dataset will be loaded and all labels will be applied as follows:</p>
+<ul>
+<li>The variable <code>gender</code> will be labeled <strong>“What is your gender?”</strong>
+</li>
+<li>The values <code>1</code> and <code>2</code> will be labeled <strong>“Male”</strong> and <strong>“Female”</strong>
+</li>
+<li>Similarly, <code>education</code> will be labeled <strong>“What is your education level?”</strong> and its values properly tagged.</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="advantages">Advantages<a class="anchor" aria-label="anchor" href="#advantages"></a>
+</h3>
+<ul>
+<li>Saves hours of manual labeling work</li>
+<li>Ensures consistency between form and dataset</li>
+<li>Works with any XLSForm-compliant survey (from KoboToolbox or local)</li>
+<li>Ideal for large-scale surveys and teams using R + Stata workflows</li>
+</ul>
 <div class="section level4">
 <h4 id="arguments-4">Arguments:<a class="anchor" aria-label="anchor" href="#arguments-4"></a>
 </h4>
@@ -261,7 +478,7 @@
 <div class="section level4">
 <h4 id="example-4">Example:<a class="anchor" aria-label="anchor" href="#example-4"></a>
 </h4>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/statalab.html">statalab</a></span><span class="op">(</span></span>
 <span>  data_path <span class="op">=</span> <span class="st">"data.xlsx"</span>,</span>
 <span>  xlsform_path <span class="op">=</span> <span class="st">"questionnaire.xlsx"</span>,</span>
@@ -278,7 +495,7 @@
 <div class="section level2">
 <h2 id="support">Support<a class="anchor" aria-label="anchor" href="#support"></a>
 </h2>
-<p>For bugs, issues, or suggestions, open an issue on the GitHub repository: <a href="https://github.com/yourusername/MyPackage/issues" class="external-link uri">https://github.com/yourusername/MyPackage/issues</a></p>
+<p>For bugs, issues, or suggestions, open an issue on the GitHub repository: <a href="https://github.com/julienParfait/monitoring/" class="external-link uri">https://github.com/julienParfait/monitoring/</a></p>
 </div>
 </div>
   </div>
