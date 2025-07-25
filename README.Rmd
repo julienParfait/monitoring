@@ -1,5 +1,6 @@
 ---
 output: rmarkdown::github_document
+
 ---
 
 ```{r setup, include = FALSE, echo=FALSE}
@@ -8,14 +9,18 @@ knitr::opts_chunk$set(eval = FALSE)
 
 # Monitoring Package
 
+<div style="text-align: justify;">
 Monitoring is an R package designed to simplify workflows involving **Google Drive**, **GitHub**, and **KoboToolbox**. It provides tools to:
+</div>
 
 - Import CSV/XLSX files from Google Drive or GitHub
 - Download XLSForm files from KoboToolbox
 - Retrieve and clean KoboToolbox submission data
 - Generate Stata `.do` files based on KoboToolbox survey structures
 
+<div style="text-align: justify;">
 These functions are particularly useful for researchers, field teams, and analysts working in survey-based and humanitarian data collection contexts.
+</div>
 
 ## Installation
 
@@ -27,6 +32,7 @@ library(monitoring)
 
 ### 1. Import Files from Google Drive with gdrive() function
 
+<div style="text-align: justify;">
 This function allows importing datasets stored on the Google Drive platform. It supports two file formats: Excel files (.xlsx) and CSV files (.csv). This function is particularly useful when aiming to create reproducible code and easily update results that have already been generated.
 
 A dataset (.csv or .xlsx) can be stored in a specific folder on Google Drive and called into R using the gdrive() function. This is ideal for building dashboards, performing data analysis, or running statistical models.
@@ -34,6 +40,7 @@ A dataset (.csv or .xlsx) can be stored in a specific folder on Google Drive and
 To update the data, you simply replace the file in Google Drive with a new version that has the same name and structure (same variables and sheet name, if applicable). As a result, all results in your R script are updated automatically, without needing to modify the code itself.
 
 This approach is particularly useful when working with large datasets, for preserving confidentiality (as files can be kept private on Drive), and for ensuring reproducibility of your analysis.
+</div>
 
 #### Arguments:
 
@@ -42,8 +49,10 @@ This approach is particularly useful when working with large datasets, for prese
 * `file_type`: `"csv"` or `"xlsx"`
 * `sheet`: Sheet name for Excel files
 
+<div style="text-align: justify;">
 To get the correct URL, right-click on the file name in the Google Drive folder, then select “Share”. In the sharing settings, choose “Anyone with the link” and copy the provided link. The URL should look like this: <https://drive.google.com/file/d/1AbCDeFgHIJKLM/view?usp=sharing> 
 
+</div>
 
 #### Returns:
 
@@ -51,6 +60,7 @@ A `data.frame` containing the file content.
 
 #### Example:
 
+<div style="text-align: justify;">
 After running the code below, you will see the following messages:
 
 * The **googledrive** package is requesting access to your Google account.
@@ -62,7 +72,7 @@ After running the code below, you will see the following messages:
 If you have **never authenticated before**, type `1` and press *Enter*. This will open a browser window where you can sign in to your Google account and grant access. We have now access on your data. 
 
 Once authorized, your credentials will be **saved in RStudio**, and in future sessions you will only need to select the corresponding number (e.g., `2`) for your Google account and press *Enter*.
-
+</div>
 
 ```{r}
 # Usage 
@@ -89,6 +99,7 @@ data3 <-  gdrive(
 
 ### 2. Import Files from GitHub with githb() function
 
+<div style="text-align: justify;">
 **This function allows you to import datasets stored on the GitHub platform.**It supports two file formats: Excel files (`.xlsx`) and CSV files (`.csv`). This function is particularly useful for creating **reproducible code**, enabling **code sharing**, supporting **version control**, and facilitating **collaborative programming**. It also makes it easy to update results that depend on external datasets.
 
 A dataset (`.csv` or `.xlsx`) can be stored in a GitHub repository and accessed directly using the `githb()` function. This approach is especially valuable for **researchers**, **engineers**, and **programmers** who commonly work with GitHub as a development and data-sharing platform. In addition, this function supports:
@@ -99,6 +110,7 @@ A dataset (`.csv` or `.xlsx`) can be stored in a GitHub repository and accessed 
 * **Remote access**, making the latest version of your data available from anywhere
 
 Overall, `githb()` contributes to a modern, robust, and maintainable workflow for anyone managing data in a GitHub-based environment.
+</div>
 
 #### Arguments:
 
@@ -112,6 +124,7 @@ A `data.frame` with the imported data.
 
 #### Example:
 
+<div style="text-align: justify;">
 Make sure you have a GitHub account. Open the repository that contains your dataset. Then, click on the file (.csv or .xlsx). On the page that opens, click the three dots (...) on the right, and select "Copy permalink".
 
 Paste this link into the githb() function under the github_raw_url argument. Next, replace the domain part of the URL from **github.com** to **raw.githubusercontent.com**.
@@ -123,7 +136,7 @@ Example :
 * The github_raw_url = "https://raw.githubusercontent.com/julienParfait/streaming/8dae2a2d590c25188586155ed5ec687e8f4546ba/base_imputee.csv"
 
 That's it — you now have the correct raw URL. You just need to specify the file_type, and if it's an Excel file, the sheet name as well. Then run the function to import your data.
-
+</div>
 
 ```{r}
 # Usage 
@@ -140,25 +153,20 @@ data5 <- githb(
 
 ### 3. Download XLSForm from KoboToolbox
 
+<div style="text-align: justify;">
 This function allows you to download the XLSForm associated with a questionnaire from the KoboToolbox platform.
 To do this, the user must provide their username, password, and the form ID as parameters.
 
-Once logged into the KoboToolbox platform, there are four main sections:
-
-* Overview
-
-* Form
-
-* Data
-
-* Settings
+Once logged into the KoboToolbox platform, there are four main sections: Overview ; Form ; Data ; Settings
 
 Please click on the Form section. Then, inspect the URL that appears in your browser's address bar. The URL may look like the following:
+
 https://kf.kobotoolbox.org/#/forms/aGkkhsn7XE5Q6q69SMbABH/landing
 
 In this case, the form ID is: aGkkhsn7XE5Q6q69SMbABH
 
 See the example below for reference.
+</div>
 
 #### Arguments:
 
@@ -182,6 +190,7 @@ xlsform(
 
 ### 4. Import KoboToolbox Submission Data
 
+<div style="text-align: justify;">
 This function allows you to download data associated with a form from the KoboToolbox platform. To do so, the user must provide the following parameters:
 
 * username: your KoboToolbox account username
@@ -194,31 +203,18 @@ This function allows you to download data associated with a form from the KoboTo
 
 * output_dir (optional): the local directory where the file will be saved
 
-Once logged into KoboToolbox, the interface contains four main sections:
+Once logged into KoboToolbox, the interface contains four main sections: Overview, Form, Data and Settings.
 
-* Overview
+Click on the Form section and inspect the URL shown in your browser’s address bar. It may look like this: https://kf.kobotoolbox.org/#/forms/aGkkhsn7XE5Q6q69SMbABH/landing. In this case, the form ID is: aGkkhsn7XE5Q6q69SMbABH
 
-* Form
-
-* Data
-
-* Settings
-
-Click on the Form section and inspect the URL shown in your browser’s address bar. It may look like this: https://kf.kobotoolbox.org/#/forms/aGkkhsn7XE5Q6q69SMbABH/landing
-
-In this case, the form ID is: aGkkhsn7XE5Q6q69SMbABH
-
-To determine the correct server type, inspect the domain in the URL:
-
-If it contains kf.kobotoolbox.org or kc.kobotoolbox.org, set server_type = "kobotoolbox" (Global server)
-
-If it contains eu.kobotoolbox.org, set server_type = "humanitarian" (EU or humanitarian server)
+To determine the correct server type, inspect the domain in the URL: If it contains kf.kobotoolbox.org or kc.kobotoolbox.org, set server_type = "kobotoolbox" (Global server). If it contains eu.kobotoolbox.org, set server_type = "humanitarian" (EU or humanitarian server).
 
 This is a very important function for monitoring and evaluation in field surveys. Once your monitoring indicators are already computed using R commands, you can simply re-import the updated data using this function, and all results will be automatically refreshed.
 
 **Note:** The function currently does not support datasets that contain begin repeat groups.
 
 See the example below for reference.
+</div>
 
 #### Arguments:
 
@@ -251,39 +247,39 @@ df <- kobo(
 ```
 
 ### 5. Generate Stata `.do` File with statalab() function
+<div style="text-align: justify;">
+This function is particularly useful for researchers, econometricians, and statistical consultants who use Stata in their data analysis workflow. It allows them to avoid manually writing labeling commands, which can be time-consuming and error-prone—especially when working with large surveys.
 
 This function generates a Stata do-file that contains the path to the dataset, a complete set of labeling commands, and value labeling instructions based on the corresponding XLSForm. More specifically, the function builds a script that:
 
-assigns variable labels using the full question text from the XLSForm,
+* Assigns variable labels using the full question text from the XLSForm,
 
-assigns value labels for categorical variables using their defined choices,
-
-and specifies the location of the source dataset to be read by Stata.
+* Assigns value labels for categorical variables using their defined choices and specifies the location of the source dataset to be read by Stata.
 
 To achieve this, the function requires three arguments:
 
-the path to the dataset in Excel format (usually exported from KoboToolbox, either manually or using the kobo() function),
+1. the path to the dataset in Excel format (usually exported from KoboToolbox, either manually or using the kobo() function),
 
-the path to the associated XLSForm (prepared with the xlsform() function),
+2. the path to the associated XLSForm (prepared with the xlsform() function),
 
-and the output directory where the generated .do file will be saved.
+3. The output directory where the generated .do file will be saved.
 
-This function is particularly useful for researchers, econometricians, and statistical consultants who use Stata in their data analysis workflow. It allows them to avoid manually writing labeling commands, which can be time-consuming and error-prone—especially when working with large surveys.
 
 Another major benefit is that the function works even without deploying the form online. As long as you have both the dataset and its corresponding XLSForm available locally, you can generate the labeling script and apply it to your data. This makes it a very practical tool for offline workflows, archived datasets, or retrospective labeling of previously collected data.
 
 Furthermore, by automating the labeling process, this function promotes reproducibility, ensures data consistency, and improves data readability for downstream users. It also facilitates collaboration, since labeled datasets are much easier to interpret by third parties who may not be familiar with the original questionnaire.
-
-
-Voici un **exemple clair et structuré** que tu peux inclure dans ton fichier `README.Rmd` pour illustrer l’usage de ta fonction qui génère un **do-file pour Stata** à partir d’un fichier de données `.xlsx` et de son `XLSForm`. L’exemple inclut un **contexte d’enquête**, deux **petits tableaux simulés**, et un bloc de code **`R`** montrant l’appel de ta fonction.
+</div>
 
 ### Use case: Labeling a survey dataset for Stata analysis
 
+
+<div style="text-align: justify;">
 Suppose you conducted a household survey and exported the data from KoboToolbox as an Excel file. You also have the corresponding XLSForm used to design the questionnaire.
 
 Now you want to label all variables and values in Stata using the original questions and choices—**without doing it manually**.
 
 This function automates the process by generating a `.do` file ready to use in Stata.
+</div>
 
 ### Example Files
 
@@ -324,19 +320,23 @@ generate_stata_do(
 )
 ```
 
+
+<div style="text-align: justify;">
 After running this function, a file called `labeling.do` will be created in the `output/` folder. When you open it in Stata and run it, the dataset will be loaded and all labels will be applied as follows:
 
 * The variable `gender` will be labeled **"What is your gender?"**
 * The values `1` and `2` will be labeled **"Male"** and **"Female"**
 * Similarly, `education` will be labeled **"What is your education level?"** and its values properly tagged.
+</div>
 
 ### Advantages
 
+<div style="text-align: justify;">
 * Saves hours of manual labeling work
 * Ensures consistency between form and dataset
 * Works with any XLSForm-compliant survey (from KoboToolbox or local)
 * Ideal for large-scale surveys and teams using R + Stata workflows
-
+</div>
 
 #### Arguments:
 
