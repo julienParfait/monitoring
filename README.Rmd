@@ -2,6 +2,10 @@
 output: rmarkdown::github_document
 ---
 
+```{r setup, include = FALSE, echo=FALSE}
+knitr::opts_chunk$set(eval = FALSE)
+```
+
 # Monitoring Package
 
 Monitoring is an R package designed to simplify workflows involving **Google Drive**, **GitHub**, and **KoboToolbox**. It provides tools to:
@@ -43,9 +47,9 @@ A `data.frame` containing the file content.
 #### Example:
 
 ```{r}
-gdrive(file_name = "data.csv", file_type = "csv")
+data1 <- gdrive(file_name = "data.csv", file_type = "csv")
 
-gdrive(
+data2 <-  gdrive(
   file_url = "https://drive.google.com/file/d/XYZ/view",
   file_type = "xlsx",
   sheet = "Sheet1"
@@ -172,5 +176,4 @@ See `LICENSE` file for details.
 
 For bugs, issues, or suggestions, open an issue on the GitHub repository:
 [https://github.com/yourusername/MyPackage/issues](https://github.com/yourusername/MyPackage/issues)
-
 
