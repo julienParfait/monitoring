@@ -1,0 +1,20 @@
+Package: monitoring
+Type: Package
+Title: Monitoring of data collection, import, and database preparation
+Version: 0.1.0
+Author: Julien BIDIAS [aut, cre], Jean MOYENGA [aut]
+Maintainer: Julien BIDIAS <julienbidias246@gmail.com>
+Description: Provides tools for importing datasets from various sources,
+    monitoring data collection, and processing data.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports:
+    httr,
+    dplyr,
+    googledrive,
+    readr,
+    readxl,
+    jsonlite,
+    stringr,
+RoxygenNote: 7.3.2
